@@ -2765,8 +2765,8 @@ namespace lio
         ofs << "  dt: d" << std::endl;
 
         Eigen::Matrix3d rot = transform_lb_.rot.normalized().toRotationMatrix().cast<double>();
-        ofs << "  data: [" << rot(0, 0) << ", " << rot(0, 1) << ", " << rot(0, 2) << std::endl;
-        ofs << "         " << rot(1, 0) << ", " << rot(1, 1) << ", " << rot(1, 2) << std::endl;
+        ofs << "  data: [" << rot(0, 0) << ", " << rot(0, 1) << ", " << rot(0, 2) << "," << std::endl;
+        ofs << "         " << rot(1, 0) << ", " << rot(1, 1) << ", " << rot(1, 2) << "," << std::endl;
         ofs << "         " << rot(2, 0) << ", " << rot(2, 1) << ", " << rot(2, 2) << "]" << std::endl;
         ofs << std::endl;
 
