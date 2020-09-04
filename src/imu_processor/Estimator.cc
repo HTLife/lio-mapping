@@ -544,9 +544,9 @@ void Estimator::ProcessLaserOdom(const Transform &transform_in, const std_msgs::
             SetInitFlag(true);
 
             Q_WI_ = R_WI_;
-//            wi_trans_.setRotation(tf::Quaternion{Q_WI_.x(), Q_WI_.y(), Q_WI_.z(), Q_WI_.w()});
 
             ROS_WARN_STREAM(">>>>>>> IMU initialized <<<<<<<");
+            SaveExtrinsic(transform_lb_);
 
             if (estimator_config_.enable_deskew || estimator_config_.cutoff_deskew) {
               ros::ServiceClient client = nh_.serviceClient<std_srvs::SetBool>("/enable_odom");
@@ -2565,6 +2565,48 @@ void Estimator::DoubleToVector() {
                                     para_ex_pose_[4],
                                     para_ex_pose_[5]).template cast<float>();
   }
+}
+
+void Estimator::SaveExtrinsic(lio::Transform& transform_lb)
+{
+// extrinsic_rotation: !!opencv-matrix
+//   rows: 3
+//   cols: 3
+//   dt: d
+//   data: [1,  0,  0,
+//          0,  1,  0,
+//          0,  0,  1]
+ 
+//  #Translation from imu frame to laser frame, laser^T_imu
+// extrinsic_translation: !!opencv-matrix
+//   rows: 3
+//   cols: 1
+//   dt: d
+//   data: [-2.4, 0, 0.7]
+
+  std::ofstream ofs("/tmp/extrinsic.txt");
+    if (!ofs)
+    {
+        return;
+    }
+    ofs << "extrinsic_rotation: !!opencv-matrix" << std::endl;
+    ofs << "  rows: 3" << std::endl;
+    ofs << "  cols: 3" << std::endl;
+    ofs << "  dt: d" << std::endl;
+
+    Eigen::Matrix3d rot = transform_lb_.rot.normalized().toRotationMatrix().cast <double> ();
+    ofs << "  data: [" << rot(0,0) << ", " << rot(0,1) << ", " << rot(0,2) << std::endl;
+    ofs << "         " << rot(1,0) << ", " << rot(1,1) << ", " << rot(1,2) << std::endl;
+    ofs << "         " << rot(2,0) << ", " << rot(2,1) << ", " << rot(2,2) << "]" << std::endl;
+    ofs << std::endl;
+
+    ofs << " #Translation from imu frame to laser frame, laser^T_imu" << std::endl;
+    ofs << "extrinsic_translation: !!opencv-matrix" << std::endl;
+    ofs << "  rows: 3" << std::endl;
+    ofs << "  cols: 1" << std::endl;
+    ofs << "  dt: d" << std::endl;
+    ofs << "  data: [" << transform_lb_.pos(0,0) << ", " << transform_lb_.pos(0,1) << ", " << transform_lb_.pos(0,2) << "]" << std::endl;
+
 }
 
 void Estimator::SlideWindow() { // NOTE: this function is only for the states and the local map

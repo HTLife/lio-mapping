@@ -112,6 +112,9 @@ class Estimator : public MeasurementManager, public PointMapping {
   Estimator();
   Estimator(EstimatorConfig config, MeasurementManagerConfig mm_config = MeasurementManagerConfig());
   ~Estimator();
+
+  void SaveExtrinsic(lio::Transform& transform_lb);
+
   void ClearState();
   void SetupRos(ros::NodeHandle &nh);
 
