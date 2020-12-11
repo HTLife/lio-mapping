@@ -47,6 +47,5 @@ RUN tar zxf ceres-solver-1.14.0.tar.gz && mkdir ceres-bin && cd ceres-bin && cma
 RUN /bin/bash -c "mkdir -p /workspace/src && cd /workspace/src && git clone https://github.com/HTLife/lio-mapping"
 RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && cd /workspace && catkin_make -DCMAKE_BUILD_TYPE=Release"
 
-
-
+RUN echo "" >> ~/.bashrc
 RUN /bin/bash -c "echo 'source /opt/ros/melodic/setup.bash' >> ~/.bashrc"
