@@ -1,4 +1,4 @@
-FROM osrf/ros:melodic-desktop-full
+FROM tseanliu/docker_env_gui:ubuntu18_melodic
 
 ARG your_name
 
@@ -38,14 +38,15 @@ COPY --from=nvidia/opengl:1.0-glvnd-runtime-ubuntu18.04 \
     /usr/share/glvnd/egl_vendor.d/10_nvidia.json
 
 # Prerequisites
-# ENV USER=$your_name
 RUN adduser $your_name
 RUN curl http://ceres-solver.org/ceres-solver-1.14.0.tar.gz --output ceres-solver-1.14.0.tar.gz
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libgoogle-glog-dev libatlas-base-dev libeigen3-dev libsuitesparse-dev
 RUN tar zxf ceres-solver-1.14.0.tar.gz && mkdir ceres-bin && cd ceres-bin && cmake ../ceres-solver-1.14.0 && make -j3 && make install
-# USER $yourname
-# RUN mkdir -p /workspace && chmod -R 777 /workspace
-# COPY --chown=1000:1000 . /workspace/src/
-COPY . /workspace/src/
+
+RUN /bin/bash -c "mkdir -p /workspace/src && cd /workspace/src && git clone https://github.com/HTLife/lio-mapping"
 RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && cd /workspace && catkin_make -DCMAKE_BUILD_TYPE=Release"
+
+
+
+RUN /bin/bash -c "echo 'source /opt/ros/melodic/setup.bash' >> ~/.bashrc"
