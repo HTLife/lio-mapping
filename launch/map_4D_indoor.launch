@@ -5,7 +5,7 @@
   <arg name="rviz" default="true" />
   <arg name="enable_4d" default="true" />
 
-  <node pkg="lio" type="lio_map_builder_node" name="lio_map_builder" output="screen">
+  <node pkg="lio" type="lio_map_builder_node" name="lio_map_builder" output="log">
   	<param name="compact_data" type="bool" value="false" />
   	<param name="enable_4d" type="bool" value="$(arg enable_4d)" />
   	<remap from="/full_odom_cloud" to="/local/full_points"/>

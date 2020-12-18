@@ -50,6 +50,10 @@ using namespace mathutils;
 DEFINE_int32(io_ratio, 2, "ratio of io");
 
 int main(int argc, char **argv) {
+  if (ros::console::set_logger_level(ROSCONSOLE_DEFAULT_NAME, ros::console::levels::Debug))
+  {
+    ros::console::notifyLoggerLevelsChanged();
+  }
 
   google::InitGoogleLogging(argv[0]);
   FLAGS_alsologtostderr = true;

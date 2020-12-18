@@ -47,6 +47,8 @@
 #include "point_processor/PointOdometry.h"
 #include "utils/TicToc.h"
 
+#include <ros/console.h>
+
 using namespace lio;
 using namespace std;
 using namespace mathutils;
@@ -175,6 +177,10 @@ void Run() {
 }
 
 int main(int argc, char **argv) {
+  if (ros::console::set_logger_level(ROSCONSOLE_DEFAULT_NAME, ros::console::levels::Debug))
+  {
+    ros::console::notifyLoggerLevelsChanged();
+  }
 
   google::InitGoogleLogging(argv[0]);
   google::ParseCommandLineFlags(&argc, &argv, true);
