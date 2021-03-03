@@ -15,7 +15,7 @@ opt_window_size: 7 #5
 init_window_factor: 2
 
 # Extrinsic parameter between IMU and Camera (adapted from VINS-mono)
-estimate_extrinsic: 2   # 0  Have an accurate extrinsic parameters. We will trust the following imu^R_cam, imu^T_cam, don't change it.
+estimate_extrinsic: 0   # 0  Have an accurate extrinsic parameters. We will trust the following imu^R_cam, imu^T_cam, don't change it.
                         # 1  Have an initial guess about extrinsic parameters. We will optimize around your initial guess.
                         # 2  Don't know anything about extrinsic parameters. You don't need to give R,T. We will try to calibrate it. Do some rotation movement at beginning.
 opt_extrinsic: 1
@@ -33,7 +33,7 @@ extrinsic_translation: !!opencv-matrix
   rows: 3
   cols: 1
   dt: d
-  data: [0.0, 0.0, -0.081939]
+  data: [0.0, 0.0, -0.03]
 
 # optimization options
 run_optimization: 1

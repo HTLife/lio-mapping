@@ -36,10 +36,29 @@ Some [sample data](https://drive.google.com/drive/folders/1dPy667dAnJy9wgXmlnRgQ
 4. `rosbag play fast1.bag`.
 
 ## Docker
-Try it out using docker:
-1. Run `docker/build_docker.sh`.
-2. Run `docker/run_docker.sh`.
-3. Run `rosbag play fast1.bag`, in your host machine or in the running container.
+
+```bash
+git clone https://github.com/HTLife/docker_env_gui
+bash install.sh
+# restart terminal
+
+cd lio-mapping/docker
+docker build -f Dockerfile -t tseanliu/lio:latest . --build-arg your_name=$USER
+drunintel tseanliu/lio:latest lio
+
+dexec lio
+(container) cd /workspace && source devel/setup.bash
+(container) roslaunch lio test_indoor.launch
+
+# Open another terminal
+dexec lio
+(container) cd /workspace && source devel/setup.bash
+(container) roslaunch lio map_4D_indoor.launch
+
+# Open another terminal
+dexec lio
+(container) rosbag play fast1.bag
+```
 
 Note: Visualization (rviz) can run in the running container with [nvidia-docker](https://github.com/NVIDIA/nvidia-docker). The [Dockerfile](docker/Dockerfile) is compatible with [nvidia-docker 2.0](https://github.com/nvidia/nvidia-docker/wiki/Installation-(version-2.0)); [1.Dockerfile](docker/1.Dockerfile) with [nvidia-docker 1.0](https://github.com/nvidia/nvidia-docker/wiki/Installation-(version-1.0)).
 

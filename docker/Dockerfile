@@ -1,3 +1,5 @@
+# docker build -f Dockerfile -t tseanliu/lio:latest . --build-arg your_name=$USER
+
 FROM tseanliu/docker_env_gui:ubuntu18_melodic
 
 ARG your_name
